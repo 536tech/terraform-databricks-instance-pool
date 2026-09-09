@@ -16,7 +16,7 @@ The resource addresses above are part of the DataTF import contract. Do not rena
 ```hcl
 module "instance_pool" {
   source  = "536tech/instance-pool/databricks"
-  version = "0.1.0"
+  version = "1.0.0"
 
   name                                  = "shared-pool"
   node_type_id                          = "Standard_DS3_v2"
