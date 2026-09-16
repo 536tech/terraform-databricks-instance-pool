@@ -47,3 +47,60 @@ run "without_access" {
     error_message = "Empty access must omit the access resources."
   }
 }
+
+run "reject_blank_name" {
+  command = plan
+  variables {
+    name = "  "
+  }
+  expect_failures = [var.name]
+}
+
+run "reject_missing_principal" {
+  command = plan
+  variables {
+    permissions = [{ permission_level = "CAN_ATTACH_TO" }]
+  }
+  expect_failures = [var.permissions]
+}
+
+run "reject_multiple_principals" {
+  command = plan
+  variables {
+    permissions = [{ permission_level = "CAN_ATTACH_TO", user_name = "user@example.com", group_name = "readers" }]
+  }
+  expect_failures = [var.permissions]
+}
+
+run "reject_blank_principal" {
+  command = plan
+  variables {
+    permissions = [{ permission_level = "CAN_ATTACH_TO", group_name = " " }]
+  }
+  expect_failures = [var.permissions]
+}
+
+run "reject_invalid_permission" {
+  command = plan
+  variables {
+    permissions = [{ permission_level = "INVALID", group_name = "readers" }]
+  }
+  expect_failures = [var.permissions]
+}
+
+run "reject_negative_idle" {
+  command = plan
+  variables {
+    min_idle_instances = -1
+  }
+  expect_failures = [var.min_idle_instances]
+}
+
+run "reject_capacity_below_idle" {
+  command = plan
+  variables {
+    max_capacity       = 1
+    min_idle_instances = 2
+  }
+  expect_failures = [databricks_instance_pool.this]
+}

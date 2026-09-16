@@ -1,4 +1,11 @@
 resource "databricks_instance_pool" "this" {
+  lifecycle {
+    precondition {
+      condition     = var.max_capacity == null ? true : var.max_capacity >= var.min_idle_instances
+      error_message = "max_capacity must be at least min_idle_instances."
+    }
+  }
+
   instance_pool_name                    = var.name
   node_type_id                          = var.node_type_id
   min_idle_instances                    = var.min_idle_instances
