@@ -1,8 +1,8 @@
 resource "databricks_instance_pool" "this" {
   lifecycle {
     precondition {
-      condition     = var.max_capacity == null ? true : var.max_capacity >= var.min_idle_instances
-      error_message = "max_capacity must be at least min_idle_instances."
+      condition     = var.max_capacity == null ? true : (var.max_capacity == 0 || var.max_capacity >= var.min_idle_instances)
+      error_message = "A positive max_capacity must be at least min_idle_instances."
     }
   }
 

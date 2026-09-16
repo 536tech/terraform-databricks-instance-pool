@@ -104,3 +104,11 @@ run "reject_capacity_below_idle" {
   }
   expect_failures = [databricks_instance_pool.this]
 }
+
+run "accept_unlimited_zero_capacity" {
+  command = plan
+  variables {
+    max_capacity       = 0
+    min_idle_instances = 2
+  }
+}

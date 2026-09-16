@@ -58,8 +58,8 @@ variable "max_capacity" {
   type        = number
   default     = null
   validation {
-    condition     = var.max_capacity == null ? true : try(var.max_capacity >= 1 && floor(var.max_capacity) == var.max_capacity, false)
-    error_message = "max_capacity must be null or an integer of at least 1."
+    condition     = var.max_capacity == null ? true : try(var.max_capacity >= 0 && floor(var.max_capacity) == var.max_capacity, false)
+    error_message = "max_capacity must be null or a nonnegative integer; zero means no limit."
   }
 }
 
