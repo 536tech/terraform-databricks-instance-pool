@@ -23,10 +23,9 @@ variable "node_type_id" {
 variable "min_idle_instances" {
   description = "Instances the pool keeps ready."
   type        = number
-  nullable    = false
 
   validation {
-    condition     = try(var.min_idle_instances >= 0 && floor(var.min_idle_instances) == var.min_idle_instances, false)
+    condition     = var.min_idle_instances == null ? true : try(var.min_idle_instances >= 0 && floor(var.min_idle_instances) == var.min_idle_instances, false)
     error_message = "min_idle_instances must be an integer of at least 0."
   }
 }
@@ -45,7 +44,6 @@ variable "idle_instance_autotermination_minutes" {
 variable "enable_elastic_disk" {
   description = "Add disk space to pool instances when they run low."
   type        = bool
-  nullable    = false
 }
 
 variable "preloaded_spark_versions" {

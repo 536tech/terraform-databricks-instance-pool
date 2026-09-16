@@ -112,3 +112,11 @@ run "accept_unlimited_zero_capacity" {
     min_idle_instances = 2
   }
 }
+
+run "accept_provider_defaults" {
+  command = plan
+  variables {
+    min_idle_instances  = null
+    enable_elastic_disk = null
+  }
+}
